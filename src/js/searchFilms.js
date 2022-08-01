@@ -2,10 +2,12 @@ import debounce from 'lodash.debounce';
 import FetchFilms from './FetchFilms';
 import getPagination from './pagination';
 import { createMarkup } from './createMarkup';
-const input = document.querySelector('#search-box');
+import { Notify } from 'notiflix';
+const pagiContainer = document.querySelector('#tui-pagination-container');
+export const input = document.querySelector('#search-box');
 const gallery = document.querySelector('.gallery');
 //fetchFilms лучше назвать имя существительным
-const fetchFilms = new FetchFilms();
+export const fetchFilms = new FetchFilms();
 
 input.addEventListener('input', debounce(searchFilms, 300));
 
@@ -16,9 +18,16 @@ async function searchFilms() {
     // fetchFilms.page = 1;
     fetchFilms.query = input.value.trim();
     const data = await getData();
-
-    const pagination = getPagination(data.total_results, 20);
-    pagination.on('afterMove', nextPage);
+    if (data.total_results > 20) {
+        pagiContainer.removeAttribute('style');
+        const pagination = getPagination(data.total_results, 20);
+        pagination.on('afterMove', nextPage);
+    } else {
+        if (!data.total_results) {
+            Notify.failure('Write somethig correct');
+        }
+        pagiContainer.setAttribute('style', 'display: none');
+    }
 }
 async function nextPage(e) {
     fetchFilms.page = e.page;

@@ -7,6 +7,8 @@ export default class FetchFilms {
     #query = '';
     constructor() {
         this.page = 1;
+        this.genre = '';
+        this.year = '';
         // this.query = '';
     }
     //какдый раз когда идет новй запрос то меняем страничку на первую
@@ -18,11 +20,14 @@ export default class FetchFilms {
         return this.#query;
     }
     async fetch(typeRequest) {
+        console.log('экзкмепляр феча ', this);
         const response = await axios.get(typeRequest, {
             params: {
                 api_key: API_KEY,
                 query: this.#query,
                 page: this.page,
+                primary_release_year: this.year,
+                with_genres: this.genre,
             },
         });
         return response.data;
@@ -37,5 +42,8 @@ export default class FetchFilms {
     }
     async fetchTrailer(id) {
         return await this.fetch(`movie/${id}/videos`);
+    }
+    async fetchFilter() {
+        return await this.fetch(`discover/movie`);
     }
 }

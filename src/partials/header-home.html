@@ -17,16 +17,52 @@
                 </li>
             </ul>
         </nav>
-        <label class="header__search">
-            <input
-                class="header__input"
-                type="text"
-                id="search-box"
-                placeholder="Movie search"
-            />
-            <img class="header__icon" src="./images/search.svg" alt="" />
-        </label>
+        <div class="header-search">
+            <svg
+                class="header-search__icon-record visually-hidden"
+                width="18px"
+                height="18px"
+            >
+                <use href="./images/sprite/symbol-defs.svg#icon-record"></use>
+            </svg>
+            <button class="header-search__btn-mic" data-active-mic>
+                <svg class="header-search__icon-mic" width="24px" height="24px">
+                    <use href="./images/sprite/symbol-defs.svg#icon-mic"></use>
+                </svg>
+            </button>
+            <label class="header-search__label">
+                <input
+                    class="header__input"
+                    type="text"
+                    id="search-box"
+                    placeholder="Movie search"
+                />
+                <img class="header__icon" src="./images/search.svg" alt="" />
+            </label>
+        </div>
 
-        <button type="button">click me</button>
+        <div class="filter">
+            <form class="filter__form">
+                <select class="filter__input" name="genre" id="genre_choice">
+                    <option value="">Choose by genre</option>
+                </select>
+                <select
+                    class="filter__input"
+                    name="year"
+                    id="year_choice"
+                ></select>
+                <select class="filter__input" name="sort" id="sort_choice">
+                    <option value="vote_average.desc">Sort by</option>
+                    <option value="vote_average.desc">Average voite</option>
+                    <option value="vote_count.desc">Voite count</option>
+                    <option value="popularity.desc">Popularity</option>
+                </select>
+                <div class="filter__checkbox">
+                    <input type="checkbox" id="genre_checkbox" name="genre" />
+                    <label for="genre">Choose genre</label>
+                </div>
+            </form>
+            <h2 class="filter__title">Filter movies</h2>
+        </div>
     </div>
 </header>

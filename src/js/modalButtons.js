@@ -1,12 +1,22 @@
+import getDataBase from './DataBase';
+const dataBase = getDataBase();
 let addWatchedModal, addQueueModal;
 let currentLi;
+let userData;
 
 function addRemoveLibraryFilm(event) {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    userData = user ? dataBase.readUserData(user.uid) : null;
     // опеределяем кна какую кнопку нажали
     const btn = event.target;
+
+    console.log('user = ', user);
+
     // на странице
     const filmListOnHomePage = JSON.parse(localStorage.getItem('LS'));
-    const listfilm = JSON.parse(localStorage.getItem(btn.name)) || [];
+    const listfilm = user
+        ? userData[btn.name] || []
+        : JSON.parse(localStorage.getItem(btn.name)) || [];
     const index = listfilm.findIndex(
         ({ id }) => id === Number(currentLi.dataset.id)
     );
@@ -17,10 +27,18 @@ function addRemoveLibraryFilm(event) {
         listfilm.splice(index, 1);
         btn.textContent = `add to ${btn.name}`;
     }
-    localStorage.setItem(btn.name, JSON.stringify(listfilm));
+    if (user) {
+        userData[btn.name] = listfilm;
+        dataBase.writeUserData(
+            user.uid,
+            userData.watched || [],
+            userData.queue || []
+        );
+    } else localStorage.setItem(btn.name, JSON.stringify(listfilm));
 }
 
 export function renderModalButtons(item) {
+    const user = JSON.parse(sessionStorage.getItem('user'));
     addWatchedModal = document.querySelector('.js-addtowatched');
     addQueueModal = document.querySelector('.js-addtoqueue');
     addWatchedModal.addEventListener('click', addRemoveLibraryFilm);
@@ -28,8 +46,16 @@ export function renderModalButtons(item) {
     currentLi = item;
 
     // в библиотеке
-    const listWatched = JSON.parse(localStorage.getItem('watched')) || [];
-    const listQueue = JSON.parse(localStorage.getItem('queue')) || [];
+    let listWatched, listQueue;
+    if (user) {
+        userData = dataBase.readUserData(user.uid);
+        listWatched = userData.watched || [];
+        listQueue = userData.queue || [];
+    } else {
+        listWatched = JSON.parse(localStorage.getItem('watched')) || [];
+        listQueue = JSON.parse(localStorage.getItem('queue')) || [];
+    }
+
     //сравнили есть ли в библиотеке
     const indexWatched = listWatched.findIndex(
         ({ id }) => id === Number(item.dataset.id)

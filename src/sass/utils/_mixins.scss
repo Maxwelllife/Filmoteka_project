@@ -52,3 +52,19 @@
         transform: scale(1.03);
     }
 }
+@mixin font($fs, $fw, $lh, $ls) {
+    font-size: $fs;
+    font-weight: $fw;
+    line-height: $lh;
+    letter-spacing: $ls;
+}
+
+%flex-align-centr {
+    display: flex;
+    align-items: center;
+}
+%flexCentered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
