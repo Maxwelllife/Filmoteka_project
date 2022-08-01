@@ -47,7 +47,9 @@ function showLibrary(event) {
     // sessionStorage.removeItem('Page');
 }
 export function moveToPage(page) {
-    pagination.movePageTo(page);
+    if (pagination) {
+        pagination.movePageTo(page);
+    }
 }
 
 function getPerPage() {

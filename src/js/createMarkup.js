@@ -1,13 +1,14 @@
 import genres from '../genres.json';
 import poster from '../images/noposter.jpg';
+//
 export function createMarkup(data) {
     return data
         .map((fullFilmInfo, index) => {
             const { genre_ids, title, release_date, poster_path, id } =
                 fullFilmInfo;
             const allGenres = genre_ids.map(id => getGenres(id));
-            if (genres.length > 2) {
-                genres = `${allGenres[0]}, ${allGenres[1]}, Other`;
+            if (allGenres.length > 2) {
+                const genres = `${allGenres[0]}, ${allGenres[1]}, Other`;
             }
             let posterUrl;
             if (!poster_path) {
