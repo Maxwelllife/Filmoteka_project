@@ -1,6 +1,7 @@
 import { createMarkup } from './createMarkup';
 import getPagination from './pagination';
 import getDataBase from './DataBase';
+import { checkLogin } from './autorization';
 
 const pagiContainer = document.querySelector('#tui-pagination-container');
 const wachedBtn = document.querySelector('.js-watched');
@@ -9,7 +10,8 @@ const gallery = document.querySelector('.gallery');
 const dataBase = getDataBase();
 let pagination;
 
-// const activeBtn = localStorage.getItem('Active') || 'wached';
+checkLogin();
+
 renderGallery();
 // кликнули на кнопку, вызов события клик на кнопки в зависимости от того какая имеет класс "active"
 function renderGallery() {
@@ -17,37 +19,59 @@ function renderGallery() {
         wachedBtn.addEventListener('click', showLibrary);
         queueBtn.addEventListener('click', showLibrary);
         if (localStorage.getItem('Active') === 'queue') {
+            //имитация клика на кнопку
             queueBtn.dispatchEvent(new Event('click'));
         } else {
             wachedBtn.dispatchEvent(new Event('click'));
         }
     }
+    sessionStorage.setItem('window', 'library');
 }
 
 function showLibrary(event) {
     wachedBtn.classList.remove('active');
     queueBtn.classList.remove('active');
     event.target.classList.add('active');
-    const user = JSON.parse(sessionStorage.getItem('user'));
-    console.log('user = ', user);
-    const userData = user ? dataBase.readUserData(user.uid) : null;
 
     localStorage.setItem('Active', event.target.name);
+    createPagina(event.target.name, 1);
+    // вычитываем необходимую библиотеку
+
+    // moveToPage(1);
+}
+
+// export function moveToPage(page) {
+//     if (pagination) {
+//         pagination.movePageTo(page);
+//     }
+// }
+function getPerPage() {
+    let perPage;
+    if (window.innerWidth >= 1280) {
+        perPage = 9;
+    } else if (window.innerWidth >= 768) {
+        perPage = 8;
+    } else perPage = 4;
+    return perPage;
+}
+
+export async function createPagina(buttonName, currentPage) {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    // console.log('user = ', user);
+    const userData = user ? await dataBase.readUserData(user.uid) : null;
+
     let libraryList = user
-        ? userData[event.target.name] || []
-        : JSON.parse(localStorage.getItem(event.target.name)) || [];
+        ? userData[buttonName] || []
+        : JSON.parse(localStorage.getItem(buttonName)) || [];
+    console.log('userData: ', userData);
     // gallery.innerHTML = createMarkup(libraryList);
     const perPage = getPerPage();
+    // заново строим пагинацию
     pagination = getPagination(libraryList.length, perPage);
     let visibleList;
 
     pagination.on('afterMove', event => {
         pagiContainer.removeAttribute('style');
-        libraryList = user
-            ? userData[localStorage.getItem('Active')] || []
-            : JSON.parse(
-                  localStorage.getItem(localStorage.getItem('Active'))
-              ) || [];
 
         // если меньше фильмов чем на одной странице может быть то убрать пагинацию
         if (libraryList.length <= perPage) {
@@ -70,23 +94,12 @@ function showLibrary(event) {
         localStorage.setItem('LS', JSON.stringify(visibleList));
         sessionStorage.setItem('Page', event.page);
     });
-    moveToPage(1);
     // const savePage = sessionStorage.getItem('Page') || 1;
-    // pagination.movePageTo(savePage);
     // sessionStorage.removeItem('Page');
-}
-export function moveToPage(page) {
-    if (pagination) {
-        pagination.movePageTo(page);
-    }
+    pagination.movePageTo(currentPage);
 }
 
-function getPerPage() {
-    let perPage;
-    if (window.innerWidth >= 1280) {
-        perPage = 9;
-    } else if (window.innerWidth >= 768) {
-        perPage = 8;
-    } else perPage = 4;
-    return perPage;
-}
+// function checkLogin() {
+//     const user = sessionStorage.getItem('user');
+//     login.textContent = user ? user.displayName || 'Anonymous' : 'login | join';
+// }

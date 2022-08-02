@@ -1,16 +1,19 @@
 import getDataBase from './DataBase';
+
 const dataBase = getDataBase();
 let addWatchedModal, addQueueModal;
 let currentLi;
 let userData;
+// let user;
+// export function setUser(newUser) {
+//     user = newUser;
+// }
 
-function addRemoveLibraryFilm(event) {
+async function addRemoveLibraryFilm(event) {
     const user = JSON.parse(sessionStorage.getItem('user'));
-    userData = user ? dataBase.readUserData(user.uid) : null;
+    userData = user ? await dataBase.readUserData(user.uid) : null;
     // опеределяем кна какую кнопку нажали
     const btn = event.target;
-
-    console.log('user = ', user);
 
     // на странице
     const filmListOnHomePage = JSON.parse(localStorage.getItem('LS'));
@@ -27,6 +30,8 @@ function addRemoveLibraryFilm(event) {
         listfilm.splice(index, 1);
         btn.textContent = `add to ${btn.name}`;
     }
+    console.log('userData2: ', userData);
+
     if (user) {
         userData[btn.name] = listfilm;
         dataBase.writeUserData(
@@ -37,7 +42,7 @@ function addRemoveLibraryFilm(event) {
     } else localStorage.setItem(btn.name, JSON.stringify(listfilm));
 }
 
-export function renderModalButtons(item) {
+export async function renderModalButtons(item) {
     const user = JSON.parse(sessionStorage.getItem('user'));
     addWatchedModal = document.querySelector('.js-addtowatched');
     addQueueModal = document.querySelector('.js-addtoqueue');
@@ -48,7 +53,7 @@ export function renderModalButtons(item) {
     // в библиотеке
     let listWatched, listQueue;
     if (user) {
-        userData = dataBase.readUserData(user.uid);
+        userData = await dataBase.readUserData(user.uid);
         listWatched = userData.watched || [];
         listQueue = userData.queue || [];
     } else {

@@ -10,6 +10,7 @@ import {
     updateCurrentUser,
 } from 'firebase/auth';
 import { googleIcon } from '../images/google.svg';
+import { createPagina } from './showLibrary';
 const provider = new GoogleAuthProvider();
 const firebaseConfig = {
     apiKey: 'AIzaSyDrR0VC-Mi0_U9m5W0fLBayYLRceve0wHs',
@@ -23,12 +24,16 @@ const firebaseConfig = {
         'https://filmoteka-project-f6bd1-default-rtdb.europe-west1.firebasedatabase.app',
 };
 const App = initializeApp(firebaseConfig);
+
 const auth = getAuth();
 const registrationBtn = document.querySelector('#user');
 let regisrationForm, form, google, formLoginization, cancel;
-//передача юзера куда нужно
-let user = null;
+
+let user = JSON.parse(sessionStorage.getItem('user'));
 registrationBtn.addEventListener('click', OpenRegiForm);
+
+console.log('user', user);
+console.log('registrationBtn', registrationBtn);
 
 function OpenRegiForm() {
     regisrationForm = basicLightBox.create(
@@ -174,8 +179,23 @@ function logOut() {
     registrationBtn.removeEventListener('click', logOutForm);
     registrationBtn.addEventListener('click', OpenRegiForm);
     regisrationForm.close();
+    if (sessionStorage.getItem('window') === 'library') {
+        createPagina(localStorage.getItem('Active'), 1);
+    }
 }
 
 function closeModal() {
     regisrationForm.close();
+}
+
+export function checkLogin() {
+    if (user) {
+        registrationBtn.textContent = user.displayName || 'Anonymous';
+        registrationBtn.removeEventListener('click', OpenRegiForm);
+        registrationBtn.addEventListener('click', logOutForm);
+    } else {
+        registrationBtn.textContent = 'Login | Join';
+        registrationBtn.removeEventListener('click', logOutForm);
+        registrationBtn.addEventListener('click', OpenRegiForm);
+    }
 }

@@ -4,7 +4,7 @@ import * as basicLightBox from 'basiclightbox';
 import { modalFilmContent } from './modalFilmContent';
 import FetchFilms from './FetchFilms';
 import { renderModalButtons } from './modalButtons';
-import { moveToPage } from './showLibrary';
+import { createPagina } from './showLibrary';
 import { Notify } from 'notiflix';
 
 const gallery = document.querySelector('.gallery');
@@ -22,7 +22,7 @@ function openModal(eve) {
         item = node.parentNode;
         // console.log(node.parentNode);
     } else return;
-    console.log(item);
+    // console.log(item);
     //притащили из localStorage список фильмов которые отображаются на странице не важно где мы находимся
     const filmList = JSON.parse(localStorage.getItem('LS'));
     //filmList[item.id] - тот фильм на который мы нажали
@@ -34,7 +34,12 @@ function openModal(eve) {
         onClose: () => {
             document.body.removeAttribute('style');
             document.removeEventListener('keydown', closeModalByESC);
-            moveToPage(sessionStorage.getItem('Page'));
+            if (sessionStorage.getItem('window') === 'library') {
+                createPagina(
+                    localStorage.getItem('Active'),
+                    sessionStorage.getItem('Page')
+                );
+            }
         },
     });
 

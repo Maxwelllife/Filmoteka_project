@@ -107,7 +107,8 @@
     background-image: url(../images/my_library_mobile.jpg),
         linear-gradient(rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56));
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: cover;
+    background-position: center;
     @include retina {
         background-image: url(../images/my_library_mobile@2x.jpg),
             linear-gradient(rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56));

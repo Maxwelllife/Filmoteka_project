@@ -5,7 +5,7 @@ const genreChoice = document.querySelector('#genre_choice');
 checkbox.addEventListener('change', selectTypeQuery);
 selectTypeQuery();
 function selectTypeQuery() {
-    console.log(checkbox.checked);
+    // console.log(checkbox.checked);
     if (checkbox.checked) {
         inputSearch.setAttribute('style', 'opacity: 0');
         genreChoice.removeAttribute('style');

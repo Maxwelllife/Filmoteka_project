@@ -20,7 +20,7 @@ export default class FetchFilms {
         return this.#query;
     }
     async fetch(typeRequest) {
-        console.log('экзкмепляр феча ', this);
+        // console.log('экзкмепляр феча ', this);
         const response = await axios.get(typeRequest, {
             params: {
                 api_key: API_KEY,
