@@ -9,8 +9,8 @@ import {
     updateProfile,
     updateCurrentUser,
 } from 'firebase/auth';
-import { googleIcon } from '../images/google.svg';
-import { createPagina } from './showLibrary';
+import googleIcon from '../images/google.svg';
+// import { createPagina } from './showLibrary';
 const provider = new GoogleAuthProvider();
 const firebaseConfig = {
     apiKey: 'AIzaSyDrR0VC-Mi0_U9m5W0fLBayYLRceve0wHs',
@@ -180,7 +180,8 @@ function logOut() {
     registrationBtn.addEventListener('click', OpenRegiForm);
     regisrationForm.close();
     if (sessionStorage.getItem('window') === 'library') {
-        createPagina(localStorage.getItem('Active'), 1);
+        sessionStorage.setItem('Page', 1);
+        document.body.dispatchEvent(new Event('close'));
     }
 }
 
@@ -189,6 +190,8 @@ function closeModal() {
 }
 
 export function checkLogin() {
+    // const user = JSON.parse(sessionStorage.getItem('user'));
+    // const registrationBtn = document.querySelector('#user');
     if (user) {
         registrationBtn.textContent = user.displayName || 'Anonymous';
         registrationBtn.removeEventListener('click', OpenRegiForm);

@@ -11,7 +11,8 @@ let userData;
 
 async function addRemoveLibraryFilm(event) {
     const user = JSON.parse(sessionStorage.getItem('user'));
-    userData = user ? await dataBase.readUserData(user.uid) : null;
+    userData = (user ? await dataBase.readUserData(user.uid) : null) || {};
+
     // опеределяем кна какую кнопку нажали
     const btn = event.target;
 
@@ -53,7 +54,7 @@ export async function renderModalButtons(item) {
     // в библиотеке
     let listWatched, listQueue;
     if (user) {
-        userData = await dataBase.readUserData(user.uid);
+        userData = (user ? await dataBase.readUserData(user.uid) : null) || {};
         listWatched = userData.watched || [];
         listQueue = userData.queue || [];
     } else {

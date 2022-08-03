@@ -4,8 +4,14 @@ import poster from '../images/noposter.jpg';
 export function createMarkup(data) {
     return data
         .map((fullFilmInfo, index) => {
-            const { genre_ids, title, release_date, poster_path, id } =
-                fullFilmInfo;
+            console.log(fullFilmInfo);
+            const {
+                genre_ids = [],
+                title,
+                release_date,
+                poster_path,
+                id,
+            } = fullFilmInfo;
             const allGenres = genre_ids.map(id => getGenres(id));
             const genres =
                 allGenres.length > 2

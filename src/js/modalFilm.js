@@ -35,10 +35,12 @@ function openModal(eve) {
             document.body.removeAttribute('style');
             document.removeEventListener('keydown', closeModalByESC);
             if (sessionStorage.getItem('window') === 'library') {
-                createPagina(
-                    localStorage.getItem('Active'),
-                    sessionStorage.getItem('Page')
-                );
+                // createPagina(
+                //     localStorage.getItem('Active'),
+                //     sessionStorage.getItem('Page')
+                // );
+
+                document.body.dispatchEvent(new Event('close'));
             }
         },
     });

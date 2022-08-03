@@ -13,34 +13,39 @@ const SpeechRecognition =
 // const movieApi = new MovieApi();
 const microphoneIcon = document.querySelector('.header-search__btn-mic');
 const recordIcon = document.querySelector('.header-search__icon-record');
-// const input = document.querySelector('.js-search');
-const recognition = new SpeechRecognition();
 
-recognition.lang = 'en-EN';
-recognition.interimResults = false;
-recognition.maxAlternatives = 1;
+let avalible = true;
+let recognition;
+try {
+    recognition = new SpeechRecognition();
+
+    recognition.lang = 'en-EN';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onnomatch = function (e) {
+        alert("I didn't recognise that movie.");
+        recordIcon.classList.add('visually-hidden');
+        microphoneIcon.classList.remove('-active');
+        recognition.stop();
+    };
+
+    recognition.onerror = function (e) {
+        alert(`Error occurred in recognition: ${e.error}`);
+        recordIcon.classList.add('visually-hidden');
+        microphoneIcon.classList.remove('-active');
+        recognition.stop();
+    };
+} catch {
+    avalible = false;
+}
 
 microphoneIcon.addEventListener('click', function () {
     input.value = '';
-    startRecognition();
-
+    if (avalible) startRecognition();
+    else alert('Your browser is not support microphone enter');
     console.log('Ready to receive a movieName command.');
 });
-
-recognition.onnomatch = function (e) {
-    alert("I didn't recognise that movie.");
-    recordIcon.classList.add('visually-hidden');
-    microphoneIcon.classList.remove('-active');
-    recognition.stop();
-};
-
-recognition.onerror = function (e) {
-    alert(`Error occurred in recognition: ${e.error}`);
-    recordIcon.classList.add('visually-hidden');
-    microphoneIcon.classList.remove('-active');
-    recognition.stop();
-};
-
 function listenSpeech(e) {
     const transcript = e.results[0][0].transcript;
     input.value = transcript;

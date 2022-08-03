@@ -10,6 +10,15 @@ const gallery = document.querySelector('.gallery');
 const dataBase = getDataBase();
 let pagination;
 
+document.body.addEventListener('close', rerender);
+
+function rerender() {
+    createPagina(
+        localStorage.getItem('Active'),
+        sessionStorage.getItem('Page')
+    );
+}
+
 checkLogin();
 
 renderGallery();
@@ -58,7 +67,8 @@ function getPerPage() {
 export async function createPagina(buttonName, currentPage) {
     const user = JSON.parse(sessionStorage.getItem('user'));
     // console.log('user = ', user);
-    const userData = user ? await dataBase.readUserData(user.uid) : null;
+    let userData = user ? await dataBase.readUserData(user.uid) : null;
+    userData = userData || {};
 
     let libraryList = user
         ? userData[buttonName] || []

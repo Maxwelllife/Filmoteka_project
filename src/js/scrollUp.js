@@ -2,11 +2,11 @@
 const btnGoTop = document.querySelector('.btn-move-up');
 window.onscroll = () => {
     if (window.scrollY > 700) {
-        refs.btnGoTop.classList.remove('is-hidden');
+        btnGoTop.classList.remove('visually-hidden');
     } else {
-        refs.btnGoTop.classList.add('is-hidden');
+        btnGoTop.classList.add('visually-hidden');
     }
 };
-refs.btnGoTop.onclick = () => {
+btnGoTop.onclick = () => {
     window.scrollTo(0, 0);
 };
