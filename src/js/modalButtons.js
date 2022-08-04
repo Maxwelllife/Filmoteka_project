@@ -27,7 +27,7 @@ async function addRemoveLibraryFilm(event) {
         listfilm.splice(index, 1);
         btn.textContent = `add to ${btn.name}`;
     }
-    console.log('userData2: ', userData);
+  
 
     if (user) {
         userData[btn.name] = listfilm;

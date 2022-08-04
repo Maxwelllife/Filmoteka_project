@@ -31,7 +31,6 @@ try {
 
 microphoneIcon.addEventListener('click', function () {
     input.value = '';
-    console.log('Ready to receive a movieName command.');
     if (avalible) {
         startRecognition();
     } else alert('Your browser is not configured to use the microphone. Use normal search or search by genre');
@@ -40,7 +39,6 @@ function listenSpeech(e) {
     const transcript = e.results[0][0].transcript;
     input.value = transcript;
     if (e.results[0].isFinal) {
-        console.log('is Final', e.results[0].isFinal);
         recognition.onspeechend = stopRecognition();
     }
     input.dispatchEvent(new Event('input'));
@@ -53,10 +51,9 @@ function startRecognition() {
     recognition.start();
 }
 function stopRecognition() {
-    console.log('Speech has stopped being detected');
     recognition.removeEventListener('result', listenSpeech);
     recordIcon.classList.add('visually-hidden');
     microphoneIcon.classList.remove('-active');
     recognition.stop();
-    console.log('recognition.stop', recognition.stop());
+  
 }

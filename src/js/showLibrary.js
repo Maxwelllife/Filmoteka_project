@@ -62,7 +62,6 @@ export async function createPagina(buttonName, currentPage) {
     let libraryList = user
         ? userData[buttonName] || []
         : JSON.parse(localStorage.getItem(buttonName)) || [];
-    console.log('userData: ', userData);
 
     const perPage = getPerPage();
     // заново строим пагинацию
@@ -74,7 +73,6 @@ export async function createPagina(buttonName, currentPage) {
 
         // если меньше фильмов чем на одной странице может быть то убрать пагинацию
         if (libraryList.length <= perPage) {
-            console.log(event.page);
             if (event.page === 2) {
                 moveToPage(1);
                 return;
@@ -85,7 +83,6 @@ export async function createPagina(buttonName, currentPage) {
             event.page * perPage - perPage,
             event.page * perPage
         );
-        console.log('we are on event page: ', event.page);
         gallery.innerHTML = createMarkup(visibleList);
         localStorage.setItem('LS', JSON.stringify(visibleList));
         sessionStorage.setItem('Page', event.page);

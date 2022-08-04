@@ -25,16 +25,12 @@ const firebaseConfig = {
         'https://filmoteka-project-f6bd1-default-rtdb.europe-west1.firebasedatabase.app',
 };
 const App = initializeApp(firebaseConfig);
-
 const auth = getAuth();
 const registrationBtn = document.querySelector('#user');
 let regisrationForm, form, google, formLoginization, cancel;
-
 let user = JSON.parse(sessionStorage.getItem('user'));
-registrationBtn.addEventListener('click', OpenRegiForm);
 
-console.log('user', user);
-console.log('registrationBtn', registrationBtn);
+registrationBtn.addEventListener('click', OpenRegiForm);
 
 function OpenRegiForm() {
     regisrationForm = basicLightBox.create(
@@ -110,7 +106,6 @@ async function registration(event) {
     } finally {
         regisrationForm.close();
     }
-    console.log(user);
 
     afterEnter();
 }
@@ -131,7 +126,7 @@ async function loginization(event) {
     } finally {
         regisrationForm.close();
     }
-    console.log(user);
+
     afterEnter();
 }
 async function updateUser(userName) {

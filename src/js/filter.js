@@ -40,13 +40,11 @@ function yearMenu() {
 async function onFilterChoice(e) {
     if (e.target.name === 'sort') {
         setSortBy(e.target.value);
-        console.log(e.target.value);
 
         return;
     }
     loader.classList.remove('visually-hidden');
     fetchFilms[e.target.name] = e.target.value;
-    console.log(fetchFilms);
     searchFilms();
     loader.classList.add('visually-hidden');
 }

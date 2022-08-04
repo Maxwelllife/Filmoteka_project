@@ -18,6 +18,7 @@ import { checkLogin } from './autorization';
 
 let sortBy = '';
 let data;
+
 //fetchFilms лучше назвать имя существительным
 export const fetchFilms = new FetchFilms();
 input.addEventListener('input', debounce(searchFilms, 300));
@@ -28,6 +29,7 @@ checkLogin();
 selectTypeQuery();
 //первый запрос при перезгрузке страницы популярных фильмов
 searchFilms();
+
 export async function searchFilms() {
     fetchFilms.query = input.value.trim();
     const data = await getData();
@@ -60,7 +62,6 @@ async function getData() {
             data = fetchFilms.query
                 ? await fetchFilms.fetchFilms()
                 : await fetchFilms.fetchPopular();
-            console.log('data', data);
         }
         if (sortBy) {
             data.results.sort((a, b) => b[sortBy] - a[sortBy]);
