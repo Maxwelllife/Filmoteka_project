@@ -1,14 +1,13 @@
 import genres from '../genres.json';
 import poster from '../images/noposter.jpg';
-//
+
 export function createMarkup(data) {
     return data
         .map((fullFilmInfo, index) => {
-            console.log(fullFilmInfo);
             const {
                 genre_ids = [],
-                title,
-                release_date,
+                title = '',
+                release_date = '',
                 poster_path,
                 id,
             } = fullFilmInfo;
@@ -21,7 +20,7 @@ export function createMarkup(data) {
             if (!poster_path) {
                 posterUrl = poster;
             } else {
-                posterUrl = `https://image.tmdb.org/t/p/original/${poster_path}`;
+                posterUrl = `https://image.tmdb.org/t/p/w500/${poster_path}`;
             }
             fullFilmInfo.genres = allGenres;
             fullFilmInfo.posterUrl = posterUrl;

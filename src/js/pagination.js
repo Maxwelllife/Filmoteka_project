@@ -1,6 +1,5 @@
 import Pagination from 'tui-pagination';
-const pagination = document.querySelector('#tui-pagination-container');
-export default function getPagination(totalFilms, perPage) {
+export default function getPagination(totalFilms, perPage, pagination) {
     const options = {
         totalItems: totalFilms,
         itemsPerPage: perPage,

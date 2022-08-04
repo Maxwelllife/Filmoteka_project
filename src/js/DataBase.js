@@ -1,5 +1,5 @@
 import { getDatabase, ref, set, child, get } from 'firebase/database';
-// import { app } from './autorization';
+
 class DataBase {
     async readUserData(userId) {
         const dbRef = ref(getDatabase());

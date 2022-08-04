@@ -4,10 +4,6 @@ const dataBase = getDataBase();
 let addWatchedModal, addQueueModal;
 let currentLi;
 let userData;
-// let user;
-// export function setUser(newUser) {
-//     user = newUser;
-// }
 
 async function addRemoveLibraryFilm(event) {
     const user = JSON.parse(sessionStorage.getItem('user'));

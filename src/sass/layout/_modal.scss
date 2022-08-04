@@ -16,10 +16,12 @@
     @include tablet {
         width: 704px;
         padding: 40px 36px;
+        overflow-y: scroll;
     }
     @include desktop {
         width: 806px;
         padding: 40px 12px;
+        overflow-y: scroll;
     }
 }
 .movies-modal__close-btn {
@@ -44,7 +46,6 @@
 }
 .movies-modal__close-icon {
     fill: currentColor;
-    flex-shrink: 0;
 }
 // --- movie-modal__content ---
 .movie-modal__content {

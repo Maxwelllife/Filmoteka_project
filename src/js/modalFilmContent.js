@@ -1,4 +1,4 @@
-import svg from '../images/icons.svg';
+import svg from '../images/sprite/symbol-defs.svg';
 
 export function modalFilmContent({
     title,

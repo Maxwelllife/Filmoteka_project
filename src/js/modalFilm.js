@@ -1,12 +1,10 @@
-// * as  это уже со стилями
 import * as basicLightBox from 'basiclightbox';
-
 import { modalFilmContent } from './modalFilmContent';
 import FetchFilms from './FetchFilms';
 import { renderModalButtons } from './modalButtons';
-import { createPagina } from './showLibrary';
 import { Notify } from 'notiflix';
 
+// эта ссылка используеться в двух модалка на разных страницах по-этому конст остаеться здесь
 const gallery = document.querySelector('.gallery');
 const fetchTrailer = new FetchFilms();
 let modalFilm;
@@ -17,12 +15,10 @@ function openModal(eve) {
     const node = eve.target.parentNode;
     if (node.nodeName === 'LI') {
         item = node;
-        // console.log(node);
     } else if (node.parentNode.nodeName === 'LI') {
         item = node.parentNode;
-        // console.log(node.parentNode);
     } else return;
-    // console.log(item);
+
     //притащили из localStorage список фильмов которые отображаются на странице не важно где мы находимся
     const filmList = JSON.parse(localStorage.getItem('LS'));
     //filmList[item.id] - тот фильм на который мы нажали
@@ -35,11 +31,6 @@ function openModal(eve) {
             document.body.removeAttribute('style');
             document.removeEventListener('keydown', closeModalByESC);
             if (sessionStorage.getItem('window') === 'library') {
-                // createPagina(
-                //     localStorage.getItem('Active'),
-                //     sessionStorage.getItem('Page')
-                // );
-
                 document.body.dispatchEvent(new Event('close'));
             }
         },
@@ -56,7 +47,6 @@ function openModal(eve) {
 }
 
 async function playTrailer() {
-    // console.log('item.dataset.id: ', item.dataset.id);
     const trailer = await fetchTrailer.fetchTrailer(item.dataset.id);
     const movieTrailer = trailer.results.find(
         video => video.type === 'Trailer' && video.site === 'YouTube'
@@ -69,7 +59,8 @@ async function playTrailer() {
         allowfullscreen></iframe>
       `);
         modalTrailer.show();
-    } else Notify.failure('Trailer is not avaleble');
+    } else
+        Notify.failure("Unfortunately we don't have a trailer for this movie.");
 }
 function closeModal() {
     modalFilm.close();

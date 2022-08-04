@@ -9,7 +9,6 @@ export default class FetchFilms {
         this.page = 1;
         this.genre = '';
         this.year = '';
-        // this.query = '';
     }
     //какдый раз когда идет новй запрос то меняем страничку на первую
     set query(newQuery) {
@@ -20,7 +19,6 @@ export default class FetchFilms {
         return this.#query;
     }
     async fetch(typeRequest) {
-        // console.log('экзкмепляр феча ', this);
         const response = await axios.get(typeRequest, {
             params: {
                 api_key: API_KEY,
@@ -36,7 +34,6 @@ export default class FetchFilms {
     async fetchFilms() {
         return await this.fetch('search/movie');
     }
-    //дожидается выполнения работы ф. fetch и передает в параметрах тип запроса
     async fetchPopular() {
         return await this.fetch('trending/movie/week');
     }

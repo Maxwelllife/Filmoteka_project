@@ -3,6 +3,8 @@
 
 @import './utils/variables';
 @import './utils/mixins';
+@import './utils/loader';
+@import './utils/animation';
 @import './base/reset';
 @import './base/common';
 @import './utils/hidden';
@@ -13,5 +15,6 @@
 @import './layout/main';
 @import './layout/footer';
 @import './layout/modal';
+@import './layout/modalDeveloper';
 
 @import './node_modules/basiclightbox/src/styles/main.scss';
