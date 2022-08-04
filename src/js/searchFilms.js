@@ -16,8 +16,6 @@ import { createMarkup } from './createMarkup';
 import { Notify } from 'notiflix';
 import { checkLogin } from './autorization';
 
-const pagiContainer = document.querySelector('#tui-pagination-container');
-
 let sortBy = '';
 let data;
 //fetchFilms лучше назвать имя существительным
